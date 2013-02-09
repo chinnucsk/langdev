@@ -1,0 +1,14 @@
+%% -*- erlang -*-
+{application, li,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  riak_core
+                 ]},
+  {mod, { li_app, []}},
+  {env, []}
+ ]}.
