@@ -3,5 +3,5 @@
  - no distributed erlang
  - no remote shell to running instance
 
-heroku create <name> --buildpack https://github.com/tsloughter/heroku-buildpack-erlang.git
+heroku create <name> --buildpack https://github.com/fogus/heroku-buildpack-erlang.git
 
