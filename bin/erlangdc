@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -z $PORT ]; then
+    PORT=8080
+fi
+
+erl +K true +A5 -pa ebin -env ERL_LIBS deps -s erlangdc_app
