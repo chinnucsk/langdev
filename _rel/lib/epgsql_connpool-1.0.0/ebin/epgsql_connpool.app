@@ -1,0 +1,10 @@
+{application,epgsql_connpool,
+             [{description,"PostgreSQL Client Pool"},
+              {vsn,"1.0.0"},
+              {registered,[]},
+              {applications,[epgsql]},
+              {mod,{epgsql_connpool_app,[]}},
+              {modules,[epgsql_connpool,epgsql_connpool_app,
+                        epgsql_connpool_config,epgsql_connpool_conn,
+                        epgsql_connpool_conn_sup,epgsql_connpool_sup,
+                        epgsql_query]}]}.
