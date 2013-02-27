@@ -1,0 +1,141 @@
+# comment would like to be
+#   -- comment
+
+# LET
+#   let <symbol> <- <expr>
+#
+let Pi <- 3.14
+
+let Yes <- true
+
+
+# LISTS
+#   [<exprs>]
+#
+let L <- [1 2 3]
+
+let L <- [[1 2] [3 4]]
+
+
+# IF
+#   if <expr>
+#
+if some-fn(42)
+   do-something()
+else
+   do-something-else()
+
+# FUN
+#   fun <symbol> (<args>) <- <docstring> <exprs>
+#
+fun a-fun [X Y] <-
+  "this is a docstring"
+  do-something(X)
+  do-something-else(Y)
+
+fun b-fun [X ... More] <-
+  "a function that takes varargs"
+  do-something(X)
+  do-something-w-three-args(_More)  -- underscore splats a list
+
+# DESTRUCTURING
+#   let <list> <- <list>
+#   fun <symbol> [<list>] <- <body>
+#
+let [A B] <- [1 2]
+
+fun pop [[H ... T]] <- T
+
+pop([1 2 3])
+--> [2 3]
+
+
+# INFIX
+#   {<exprs>}
+#
+if {X < Y}
+   do-then-stuff()
+else
+   do-else-stuff()
+
+# RELATIONS
+#   relation <symbol> <docstring> <slots>
+#
+relation person
+  "describes a person"
+  = name
+  = age
+  * stuff
+
+# ASSERTIONS
+#   ! <symbol> <slots>
+#
+assert
+  person
+    = name  "Mike".
+    = age       36.
+    * things 1 2 3!
+
+assertions
+  person
+    = name  "Mike";
+    = age       36;
+    * things 1 2 3!
+
+  person
+    = name  "Keita";
+    = age         5!
+
+# RULES
+#   rule <symbol> <docstring> <lhs> => <rhs>
+#   ?- is a test
+rule find-youngins
+  "find kids and print their names, retracting afterwards."
+  K <- person:
+         = name N;
+         = age  A;
+
+  ?- {A < 13}
+=>
+  out(N " is " A " years old!")
+
+# AND / OR
+#   and / or <expr> <expr>
+#
+and
+  true
+  even?(X)
+  odd?(Y)
+
+# CLASSES
+#   class <symbol> is <symbol> <slots>
+#
+class Point-1D is Object
+  + X
+
+class Point-2D is Point-1D
+  + Y
+
+let P1 <- Point-1D@new(1)
+let P2 <- Point-2D@new(1 2)
+
+out(P2@X)
+
+# INTERFACES ? 
+
+???
+
+# METHODS
+
+method scale on Point-1D [$ F] <-
+  "scales a point"
+  Point-1D {$@X * F}!
+
+method scale on Point-2D [$ F] <-
+  "scales a point"
+  Point-2D {$@X * F} {$@Y * F}!
+
+
+let P1 <- scale(P1 10)
+let P2 <- scale(P2 10)
+

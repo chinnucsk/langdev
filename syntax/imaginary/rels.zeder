@@ -1,0 +1,22 @@
+(defrelation Node [name type yes-no question no-node answer])
+
+(zeder/load "tree.clj")
+
+;; http://www.csie.ntu.edu.tw/~sylee/courses/clips/design.htm
+
+(defrelation Car [color mileage value])
+
+(def F (assert (db) 
+	       (->Car :red 10000 400)
+	       (->Car :blue 100000 3000))
+
+(defrule eliminate-bad-cars
+  [?c (Car :mileage (> 20000 ?mileage))]
+=>
+  (println (str "Removing a car with mileage " ?mileage))
+  (retract ?c))
+
+(def R (build-rulebase eliminate-bad-cars)) ;; seed facts optional
+
+(run :rules R :against F)
+;=> a factbase instance
