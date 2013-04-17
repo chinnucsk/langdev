@@ -1,0 +1,30 @@
+;; doctests for modify-fact functionality
+>> (progn
+     (unless (equal (package-name *package*) "MPS")
+       (in-package :mps))
+     NIL)
+NIL
+>> (clear)
+T
+>> (defstruct foo bar)
+FOO
+>> (defparameter *fact* #S(foo :bar 1))
+*FACT*
+>> *fact*
+#S(FOO :BAR 1)
+>> (assert-facts *fact*)
+1
+>> (modify-fact *fact* #'(lambda (f)
+                            (setf (foo-bar f) 2)))
+1
+>> (facts)
+(#S(FOO :BAR 2))
+>> *fact*
+#S(FOO :BAR 2)
+>> (modify-fact #S(FOO :BAR 2) #'(lambda (f)
+                                   (setf (foo-bar f) 'baz)))
+1
+>> (facts)
+(#S(FOO :BAR BAZ))
+>> *fact*
+#S(FOO :BAR 2)

@@ -1,0 +1,97 @@
+;; doctests for Not-CE functionality
+>> (progn
+     (unless (equal (package-name *package*) "MPS")
+       (in-package :mps))
+     NIL)
+NIL
+>> (clear)
+T
+>> (defstruct foo bar baz)
+FOO
+>> (defrule test
+     (foo (bar 1))
+     (not (foo (bar 2)))
+     =>)
+TEST
+>> (assert-facts #S(foo :bar 1))
+1
+>> (length (agenda))
+1
+>> (assert-facts #S(foo :bar 2))
+1
+>> (length (agenda))
+0
+>> (retract-facts #S(foo :bar 2))
+1
+>> (length (agenda)) ; 10
+1
+>> (clear)
+T
+
+>> (defstruct foo1 bar baz)
+FOO1
+>> (defrule test
+     (foo (bar ?bar))
+     (not (foo1 (bar ?bar)))
+     =>)
+TEST
+>> (assert-facts #S(foo :bar 1))
+1
+>> (length (facts))
+1
+>> (length (agenda))
+1
+>> (assert-facts #S(foo1 :bar 1))
+1
+>> (length (agenda))
+0
+>> (assert-facts #S(foo1 :bar 2))
+1
+>> (retract-facts #S(foo1 :bar 1))
+1
+>> (length (agenda))
+1
+>> (clear) ; 22
+T
+
+>> (defrule test
+     (foo (bar ?bar) (baz ?baz))
+     (not (foo1 (bar ?bar) (baz ?baz)))
+     =>)
+TEST
+>> (assert-facts #S(foo :bar 1 :baz 1))
+1
+>> (length (agenda))
+1
+>> (assert-facts #S(foo1 :bar 1 :baz 1))
+1
+>> (length (agenda))
+0
+>> (clear)
+T
+>> (defrule test
+     (foo (bar ?bar) (baz ?baz1))
+     (not (foo1 (bar ?bar) (baz ?baz2 (> ?baz1 ?baz2))))
+     =>)
+TEST
+>> (assert-facts #S(foo :bar 1 :baz 1) #S(foo1 :bar 1 :baz 1))
+2
+>> (length (agenda))
+1
+>> (clear)
+T
+>> (defrule test
+     (foo (bar ?bar))
+     (not (foo (bar ?v (> ?v 1))))
+     (not (foo (baz ?v (> ?v 1))))
+     (foo (baz ?baz))
+     =>)
+TEST
+>> (assert-facts #S(foo :bar 0 :baz 0))
+1
+>> (length (agenda))
+1
+>> (assert-facts #S(foo :bar 2 :baz 0))
+1
+>> (length (agenda))
+0
